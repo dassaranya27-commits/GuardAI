@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuardAI | Neural Wellness System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <nav class="sidebar glass">
+        <div class="logo">GuardAI<span>.</span></div>
+        <div class="nav-links">
+            <button onclick="showPage('study')" id="btn-study" class="nav-item active">📚 Focus Room</button>
+            <button onclick="showPage('wellness')" id="btn-wellness" class="nav-item">🧘 Wellness Lab</button>
+        </div>
+    </nav>
+
+    <main class="content">
+        <section id="page-study" class="page active">
+            <div class="hero-text">
+                <h1>Focus Sanctuary</h1>
+            </div>
+            
+            <div class="study-grid">
+                <div class="card camera-box" id="camContainer">
+                    <!-- Avatar Display -->
+                    <div id="avatarDisplay" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a0f1f, #2d1b33);">
+                        <div id="avatarEmoji" style="font-size: 100px; filter: drop-shadow(0 0 20px rgba(255,106,136,0.5)); transition: all 0.2s ease;">
+                            🧑‍💻
+                        </div>
+                        <div id="avatarStatus" style="margin-top: 15px; font-size: 16px; color: #ff9a8b; font-family: monospace; font-weight: bold;">
+                            Ready to focus!
+                        </div>
+                        <div id="avatarEnergyContainer" style="margin-top: 15px; width: 250px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden;">
+                            <div id="avatarEnergyBar" style="width: 100%; height: 100%; background: linear-gradient(90deg, #88ff88, #ff6a88); transition: width 0.3s ease; border-radius: 10px;"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="ai-status-tag">🧠 AI: Monitoring fatigue...</div>
+                    <div class="scan-bar"></div>
+                </div>
+
+                <div class="card timer-container">
+                    <div class="timer-setup" id="setupArea">
+                        <input type="number" id="minutesInput" placeholder="25" value="5">
+                        <span>mins</span>
+                    </div>
+                    <div id="timeDisplay">05:00</div>
+                    <div class="control-row">
+                        <button onclick="toggleTimer()" id="timerBtn" class="btn-sunset">Start Session</button>
+                        <button onclick="resetTimer()" class="btn-reset">Reset</button>
+                    </div>
+                    <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button onclick="simulateFatigue()" class="btn-sunset action-btn">😴 Simulate Fatigue</button>
+                        <button onclick="resetFatigue()" class="btn-reset action-btn">↺ Reset Energy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="intervention-hub" class="intervention-hidden">
+                <div class="card alert-card" id="mainAlertCard">
+                    <div class="alert-header">
+                        <span class="alert-icon" id="alertIcon">⚠️</span>
+                        <div>
+                            <h2 id="alert-title">Fatigue Detected</h2>
+                            <p id="alert-desc">Your avatar shows signs of fatigue. Time for a break!</p>
+                        </div>
+                    </div>
+                    <div class="option-grid">
+                        <button class="option-btn" onclick="executeOption('nap')">😴 15m Power Nap</button>
+                        <button class="option-btn" onclick="executeOption('breath')">🌬️ Box Breathing</button>
+                        <button class="option-btn" onclick="executeOption('walk')">🚶 5m Movement</button>
+                        <button class="option-btn ignore-btn" id="ignoreBtn" onclick="handleIgnore()">⚡ Ignore Alert</button>
+                    </div>
+                    <p id="warning-text" style="color: #ff4d4d; margin-top: 15px; font-weight: bold; display: none; text-align: center;">⚠️ WARNING: 1 more ignore = System Lockdown!</p>
+                    <p id="critical-warning" style="color: #ff0000; margin-top: 15px; font-weight: bold; display: none; text-align: center; font-size: 1.2rem;">💀 CRITICAL: System Lockdown Imminent! 💀</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-wellness" class="page">
+            <div class="hero-text">
+                <h1>Wellness Analytics</h1>
+                <!-- Removed: Data-driven burnout prevention dashboard -->
+            </div>
+            <div class="wellness-grid">
+                <div class="card input-group">
+                    <h3>Sync Daily Vitals</h3>
+                    <input type="number" id="sleepInput" placeholder="Sleep (Hours)">
+                    <select id="moodInput">
+                        <option value="5">🌅 Inspired</option>
+                        <option value="3">🌥️ Average</option>
+                        <option value="1">🌑 Exhausted</option>
+                    </select>
+                    <button onclick="syncData()" class="btn-sunset full-width">Update Dashboard</button>
+                </div>
+
+                <div class="card risk-meter">
+                    <h3>Burnout Risk</h3>
+                    <div id="riskScore" class="score-text">0%</div>
+                    <div class="bar-bg"><div id="riskBar" class="bar-fill"></div></div>
+                </div>
+
+                <div class="card tips-card">
+                    <h3>AI Health Strategy</h3>
+                    <div id="tip-container">
+                        <div class="tip-icon">💡</div>
+                        <p id="ai-tip-text">Sync your vitals to receive a personalized recovery plan.</p>
+                    </div>
+                </div>
+
+                <div class="card stats-card">
+                    <h3>📊 Today's Fatigue Events</h3>
+                    <div id="fatigueCount" style="font-size: 2.5rem; text-align: center; margin: 20px 0;">0</div>
+                    <p style="text-align: center; opacity: 0.7;">Fatigue episodes detected</p>
+                </div>
+
+                <div class="card chart-card">
+                    <canvas id="wellnessChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
